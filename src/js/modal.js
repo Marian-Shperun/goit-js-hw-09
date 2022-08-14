@@ -1,5 +1,4 @@
 import * as basicLightbox from 'basiclightbox';
-import 'basicLightbox/dist/basicLightbox.min.css';
 export const instance = basicLightbox.create(
   `
     <div class="modal">
