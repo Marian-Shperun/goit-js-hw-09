@@ -1,6 +1,6 @@
 import flatpickr from 'flatpickr';
 import Notiflix from 'notiflix';
-import { instance } from './modal';
+// import { instance } from './modal';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const chooseDate = document.querySelector('input#datetime-picker');
@@ -40,20 +40,24 @@ class Timer {
     }
     this.intervalId = setInterval(() => {
       this.isActive = true;
-      const countdownTime = userDate - Date.now();
+      let countdownTime = userDate - Date.now();
       const componentTime = convertMs(countdownTime);
       markup(componentTime);
-      if (countdownTime < 1000) {
-        clearInterval(this.intervalId);
-        timerEl.classList.remove('timer--active');
-      }
-      chooseDate.addEventListener('click', () => {
-        instance.show();
-      });
+      chooseDate.disabled = true;
+
+      this.stop(countdownTime);
     }, 1000);
   }
-}
+  stop(countdownTime) {
+    if (countdownTime < 1000) {
+      setTimeout(clearInterval(this.intervalId), countdownTime);
+      chooseDate.disabled = false;
+      timerEl.classList.remove('timer--active');
 
+      console.log(countdownTime);
+    }
+  }
+}
 function markup({ days, hours, minutes, seconds }) {
   daysEl.textContent = days;
   hoursEl.textContent = hours;
