@@ -40,22 +40,21 @@ class Timer {
     }
     this.intervalId = setInterval(() => {
       this.isActive = true;
-      let countdownTime = userDate - Date.now();
+      chooseDate.disabled = true;
+
+      const countdownTime = userDate - Date.now();
       const componentTime = convertMs(countdownTime);
       markup(componentTime);
-      chooseDate.disabled = true;
 
       this.stop(countdownTime);
     }, 1000);
   }
   stop(countdownTime) {
-    if (countdownTime < 1000) {
-      setTimeout(clearInterval(this.intervalId), countdownTime);
+    setTimeout(() => {
+      clearInterval(this.intervalId);
       chooseDate.disabled = false;
       timerEl.classList.remove('timer--active');
-
-      console.log(countdownTime);
-    }
+    }, countdownTime);
   }
 }
 function markup({ days, hours, minutes, seconds }) {

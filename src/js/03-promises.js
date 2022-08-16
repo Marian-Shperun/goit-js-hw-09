@@ -10,15 +10,20 @@ function satart(e) {
   let delaySelected = +delay.value;
   let stepDelaySelected = +step.value;
   let amountSelected = +amount.value;
+  
+  if (delaySelected >= 0 && stepDelaySelected >= 0 && amountSelected > 0) {
+    for (let i = 0; i < amountSelected; i += 1) {
+      createPromise(i + 1, delaySelected)
+        .then(resSuccess)
+        .catch(resError);
 
-  for (let i = 0; i < amountSelected; i += 1) {
-    createPromise(i + 1, delaySelected)
-      .then(resSuccess)
-      .catch(resError);
-
-    // перезаписує значення delaySelected
-    delaySelected += stepDelaySelected;
+      // перезаписує значення delaySelected
+      delaySelected += stepDelaySelected;
+    }
+  } else {
+    Notiflix.Notify.failure(`❌ введене число некоректне`);
   }
+
 }
 
 function createPromise(position, delay) {
