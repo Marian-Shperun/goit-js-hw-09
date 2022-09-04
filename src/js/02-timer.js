@@ -13,7 +13,6 @@ const secondsEl = document.querySelector('[data-seconds]');
 
 btnStart.disabled = true;
 let userDate = null;
-let countdown = null;
 
 const options = {
   enableTime: true,
@@ -27,14 +26,12 @@ const options = {
     }
     btnStart.disabled = false;
     userDate = selectedDates[0];
-    countdown = userDate - Date.now();
   },
 };
 class Timer {
   constructor() {
     intervalId: null;
     isActive: false;
-    // countdown: null;
   }
   start() {
     if (this.isActive) {
@@ -45,22 +42,17 @@ class Timer {
       chooseDate.disabled = true;
 
       const countdownTime = userDate - Date.now();
-      const componentTime = convertMs(countdownTime);
-      markup(componentTime);
-      // this.countdown = countdownTime;
+      console.log(countdownTime);
+      if (countdownTime >= 0) {
+        const componentTime = convertMs(countdownTime);
+        markup(componentTime);
+      } else {
+        clearInterval(this.intervalId);
+        timerEl.classList.remove('timer--active');
+        chooseDate.disabled = false;
+        location.reload();
+      }
     }, 1000);
-    console.log(countdown);
-
-    this.stop(countdown);
-  }
-  stop(stopTime) {
-    setTimeout(() => {
-      clearInterval(this.intervalId);
-      chooseDate.disabled = false;
-      timerEl.classList.remove('timer--active');
-      console.log(stopTime);
-      location.reload();
-    }, stopTime);
   }
 }
 
